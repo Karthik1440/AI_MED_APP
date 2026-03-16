@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "MedVision",
+    "slug": "medvision",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "medvision",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "icon": "./assets/images/logos.png",
+    "splash": {
+      "image": "./assets/images/splash.jpg",
+      "resizeMode": "cover",
+      "backgroundColor": "#031359"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.karthik.medvision"
+    },
+    "android": {
+      "package": "com.karthik.medvision",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logos.png",
+        "backgroundColor": "#1C2541"
+      },
+      "edgeToEdgeEnabled": true,
+      "navigationBar": {
+        "backgroundColor": "#1C2541"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7af77159-1edb-4043-8702-2763e912e84a"
+      }
+    }
+  }
+}

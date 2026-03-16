@@ -10,6 +10,8 @@ import io
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 import os
+from pydantic import BaseModel
+import requests
 
 # 👇 Gemini
 from google import genai
@@ -164,3 +166,40 @@ async def download_report(report: str = Form(...)):
         media_type="application/pdf",
         headers={"Content-Disposition": "attachment; filename=medical_report.pdf"}
     )
+    
+# Request body
+class SymptomRequest(BaseModel):
+    symptoms: str
+    chat_history: list = []
+    
+@app.post("/symptom-checker")
+async def symptom_checker(request: SymptomRequest):
+    symptoms = request.symptoms
+    chat_history = request.chat_history
+
+    prompt = f"""
+You are a helpful medical assistant AI.
+Chat history:
+{chat_history}
+User symptoms: {symptoms}
+Answer as the AI assistant:
+"""
+
+    try:
+        response = gemini_client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[{"text": prompt}]
+        )
+
+        # Extract the text from the first candidate
+        if response.candidates and len(response.candidates) > 0:
+            text_output = response.candidates[0].content.parts[0].text
+        else:
+            text_output = "Sorry, the AI did not return a response."
+
+    except Exception as e:
+        print("Gemini API error:", e)
+        text_output = "Error contacting AI model."
+
+    # Always return as JSON
+    return {"response": text_output}
